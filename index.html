@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云藏链接下载助手</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <div class="badge">云藏下载助手</div>
+      <h1>复制文件链接，粘贴后直接下载</h1>
+      <p class="lead">
+        把你在云藏浏览器里复制到的文件链接粘贴进来，这个页面会优先尝试直接下载；
+        如果对方站点有限制，也会自动切换到备用方式。
+      </p>
+
+      <form id="download-form" class="download-form">
+        <label class="field">
+          <span>文件链接</span>
+          <textarea
+            id="file-url"
+            name="file-url"
+            rows="5"
+            placeholder="在这里粘贴 https://... 文件链接"
+            required
+          ></textarea>
+        </label>
+
+        <label class="field">
+          <span>保存文件名（可选）</span>
+          <input
+            id="file-name"
+            name="file-name"
+            type="text"
+            placeholder="例如 report.pdf"
+          >
+        </label>
+
+        <label class="field">
+          <span>导出方式</span>
+          <select id="download-format" name="download-format">
+            <option value="auto">智能下载（推荐）</option>
+            <option value="docx">Word 文本版（更适合文库/WPS）</option>
+            <option value="pdf">PDF 备份版</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button id="download-button" type="submit">开始下载</button>
+          <button id="clear-button" type="button" class="secondary">清空</button>
+        </div>
+      </form>
+
+      <div id="status-card" class="status-card" aria-live="polite">
+        <strong>准备好了</strong>
+        <p>粘贴一个直接文件链接后，点击“开始下载”。</p>
+      </div>
+
+      <section class="share-card" aria-live="polite">
+        <strong>共享地址</strong>
+        <p id="share-hint">正在读取可分享地址…</p>
+        <div id="share-links" class="share-links"></div>
+      </section>
+
+      <ul class="tips">
+        <li>现在会优先走服务端处理，不再轻易把你直接送回原网站。</li>
+        <li>针对 `wenku.yongzin.com` 文库页，推荐使用“智能下载”或 “Word 文本版”。</li>
+        <li>Word 文本版会保留正文内容，通常比网页直接导出的结果更适合 WPS 打开。</li>
+        <li>如果要给别人用，请把“共享地址”发给对方；`127.0.0.1` 只对你自己有效。</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
