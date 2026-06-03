@@ -12,10 +12,5 @@
       "src": "/(.*)",
       "dest": "server.py"
     }
-  ],
-  "functions": {
-    "server.py": {
-      "excludeFiles": "{vendor/**,downloads/**,public/**/*.pdf,public/**/*.docx,**/*.pdf,**/*.docx}"
-    }
-  }
+  ]
 }
