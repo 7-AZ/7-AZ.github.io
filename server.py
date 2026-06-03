@@ -41,6 +41,18 @@ class DownloadError(RuntimeError):
     pass
 
 
+def resolve_static_file(file_name: str) -> Path:
+    public_path = PUBLIC_DIR / file_name
+    if public_path.exists():
+        return public_path
+
+    root_path = WORKSPACE_DIR / file_name
+    if root_path.exists():
+        return root_path
+
+    raise FileNotFoundError(file_name)
+
+
 def sanitize_file_name(value: str, fallback: str = "downloaded-file") -> str:
     cleaned = re.sub(r'[<>:"/\\|?*\x00-\x1f]+', "_", value or "").strip().strip(".")
     return cleaned or fallback
@@ -340,17 +352,20 @@ def build_server_info() -> dict[str, Any]:
 @app.get("/")
 @app.get("/index.html")
 def serve_index():
-    return send_from_directory(PUBLIC_DIR, "index.html", mimetype=STATIC_FILES["index.html"])
+    file_path = resolve_static_file("index.html")
+    return send_file(file_path, mimetype=STATIC_FILES["index.html"])
 
 
 @app.get("/styles.css")
 def serve_styles():
-    return send_from_directory(PUBLIC_DIR, "styles.css", mimetype=STATIC_FILES["styles.css"])
+    file_path = resolve_static_file("styles.css")
+    return send_file(file_path, mimetype=STATIC_FILES["styles.css"])
 
 
 @app.get("/script.js")
 def serve_script():
-    return send_from_directory(PUBLIC_DIR, "script.js", mimetype=STATIC_FILES["script.js"])
+    file_path = resolve_static_file("script.js")
+    return send_file(file_path, mimetype=STATIC_FILES["script.js"])
 
 
 @app.get("/api/server-info")
